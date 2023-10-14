@@ -1,0 +1,8 @@
+﻿  Functions.cpp
+C:\Users\Василий\source\repos\cryptosoft_task\cryptosoft_task\Functions.cpp(59,28): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Василий\source\repos\cryptosoft_task\cryptosoft_task\Functions.cpp(60,26): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Василий\source\repos\cryptosoft_task\cryptosoft_task\Functions.cpp(93,28): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  Main.cpp
+  Pqueue.cpp
+  Создание кода...
+  cryptosoft_task.vcxproj -> C:\Users\Василий\source\repos\cryptosoft_task\x64\Debug\cryptosoft_task.exe
