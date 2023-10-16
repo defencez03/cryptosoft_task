@@ -1,6 +1,7 @@
 #include "Resource.h"
 
 
+// Добавление элемента в очередь
 void pqueue::push(double time, int val) {
 	Cell* ptr = new Cell;
 	ptr->data->time = time;
@@ -16,7 +17,7 @@ void pqueue::push(double time, int val) {
 			if (ptr->data->time < cell->data->time) {
 				ptr->prev = cell;
 				if (cell != last) {
-					ptr->next = cell->next;
+					ptr->next = cell->next;					// Сортировка элементов очереди по времени (элементы с наименьшим временем в конец очереди)
 					ptr->next->prev = ptr;
 				}
 				cell->next = ptr;
@@ -33,6 +34,7 @@ void pqueue::push(double time, int val) {
 	}
 }
 
+// Удаление последнего элемента из очереди
 void pqueue::pop() {
 	Cell* sw;
 
@@ -52,8 +54,10 @@ pqueue::Cell* pqueue::getNext(Cell* cell) { return cell->next; }
 
 pqueue::Cell* pqueue::getFirst() { return this->first; }
 
+// Получение эелемента с наименьшим временем
 pqueue::Cell* pqueue::min() { return this->last; }
 
+// Определение размера очереди
 int pqueue::size() {
 	Cell* cell = first;
 	int num = 0;
@@ -66,17 +70,18 @@ int pqueue::size() {
 	return num;
 }
 
+// Удаление ячейки 
 void pqueue::delCell(Cell* search_cell) {
 	Cell* cell = first;
 	while (cell != NULL) {
 		if (cell == search_cell) {
 			if (cell->prev != NULL || cell->next != NULL) {
 				if (cell->prev != NULL) {
-					cell->prev->next = cell->next;
+					cell->prev->next = cell->next;			
 				}
-				else first = cell->next;
-
-				if (cell->next != NULL) {
+				else first = cell->next;					// Определение позиции ячейки
+															// Если ячейка является поледней, то указателю last = предыдущая ячейка
+				if (cell->next != NULL) {					// Если ячейка является первой, то указателю first = следующая ячейка
 					cell->next->prev = cell->prev;
 				}
 				else last = cell->prev;
@@ -84,7 +89,7 @@ void pqueue::delCell(Cell* search_cell) {
 				delete cell;
 			}
 			else {
-				delete cell;
+				delete cell;								// Если элемент один в очреди, то first И last обнуляются
 				first = last = NULL;
 			}
 			break;
@@ -99,6 +104,7 @@ pqueue::~pqueue() {
 
 pqueue::Cell::Cell() { data = new Node; }
 
+//Очитска очереди
 void pqueue::clear() {
 	Cell* cell = first, * sw = NULL;
 

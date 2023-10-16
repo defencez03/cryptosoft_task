@@ -1,6 +1,6 @@
 #include "Resource.h"
 
-
+// Считывание данных из файла
 vector<vector<double>> scanFile(ifstream& fcin) {
 	int points;
 	vector<double> mas_buff;
@@ -15,10 +15,10 @@ vector<vector<double>> scanFile(ifstream& fcin) {
 		}
 		mass.push_back({ mas_buff[0] * 2, mas_buff[1] * 2,
 						 mas_buff[0] + mas_buff[2],
-						 mas_buff[1] + mas_buff[3],
-						 mas_buff[4] / 2});
-		mass.push_back({ mas_buff[0] + mas_buff[2],
-						 mas_buff[1] + mas_buff[3],
+						 mas_buff[1] + mas_buff[3],					
+						 mas_buff[4] / 2});												// Увеличение фигуры и запись промежуточных точек
+		mass.push_back({ mas_buff[0] + mas_buff[2],										// Уменьшение вренеи прохождения в 2 раза
+						 mas_buff[1] + mas_buff[3],										// Пример: до увеличения (11-22), после (22-33, 33-44)
 						 mas_buff[2] * 2, mas_buff[3] * 2,
 						 mas_buff[4] / 2 });
 		mas_buff.clear();
@@ -26,6 +26,7 @@ vector<vector<double>> scanFile(ifstream& fcin) {
 	return mass;
 }
 
+// Запись точек в список вершин из списка связей между точками
 void totalPoints(vector<vector<double>>& mass, vector<vector<double>>& points) {
 	bool p_start = 1, p_end = 1;
 
@@ -37,10 +38,10 @@ void totalPoints(vector<vector<double>>& mass, vector<vector<double>>& points) {
 			continue;
 		}
 		for (int j = 0; j < points.size(); j++) {
-			if (mass[i][0] == points[j][0] && mass[i][1] == points[j][1]) {
+			if (mass[i][0] == points[j][0] && mass[i][1] == points[j][1]) {			
 				p_start = 0;
 			}
-			if (mass[i][2] == points[j][0] && mass[i][3] == points[j][1]) {
+			if (mass[i][2] == points[j][0] && mass[i][3] == points[j][1]) {				// Проверка наличия точки в списке вершин
 				p_end = 0;
 			}
 			if (p_start == 0 && p_end == 0) break;
@@ -54,6 +55,7 @@ void totalPoints(vector<vector<double>>& mass, vector<vector<double>>& points) {
 	}
 }
 
+// Создание графа(матрицы смежности)
 double** generateGraph(const vector<vector<double>>& points, const vector<vector<double>>& mass) {
 	
 	int p_size = points.size();
@@ -65,13 +67,14 @@ double** generateGraph(const vector<vector<double>>& points, const vector<vector
 		G[i] = new double[p_size]{0};
 	}
 
+	// Заполнение графа смежности 
 	for (int i = 0; i < p_size; i++) {
 		for (int j = 0; j < m_size; j++) {
 			if (points[i][0] == mass[j][0] && points[i][1] == mass[j][1]) {
 				for (int k = 0; k < p_size; k++) {
-					if (points[k][0] == mass[j][2] && points[k][1] == mass[j][3]) {
-						G[i][k] = mass[j][4];
-						G[k][i] = mass[j][4];
+					if (points[k][0] == mass[j][2] && points[k][1] == mass[j][3]) {		// Сравнение точек из списка со связанными точками и списком точек
+						G[i][k] = mass[j][4];											// Добавление времени сгорания спички по индексам из списка точек(вес ребра)
+						G[k][i] = mass[j][4];											
 					}
 				}
 			}
@@ -89,6 +92,7 @@ double** generateGraph(const vector<vector<double>>& points, const vector<vector
 	return G;
 }
 
+// Очитска выделенной памяти
 void clearMemory(double** G, const vector<vector<double>>& points) {
 	int p_size = points.size();
 
@@ -99,6 +103,7 @@ void clearMemory(double** G, const vector<vector<double>>& points) {
 	delete[] G;
 }
 
+// Функция обхода графа в ширину (алгоритм Дейкстры)
 double BFC(double** G, pqueue& unvisited, vector<double> visited, const vector<vector<double>>& points, int num) {
 	bool ans = 0;
 	double sum = 0;
@@ -107,8 +112,8 @@ double BFC(double** G, pqueue& unvisited, vector<double> visited, const vector<v
 	for (int i = 0; i < points.size(); i++) {
 		ans = 0;
 		if (G[num][i] > 0) {
-			for (int j = 0; j < visited.size(); j++) {
-				if (i == visited[j]) ans = 1;
+			for (int j = 0; j < visited.size(); j++) {									// Добавление в список непосещенных точек 
+				if (i == visited[j]) ans = 1;											// Добавление структуры, содержащую номер вершины и время прохождения до нее
 			}
 			if (ans == 0) unvisited.push(G[num][i], i);
 		}
@@ -116,10 +121,10 @@ double BFC(double** G, pqueue& unvisited, vector<double> visited, const vector<v
 
 	if (unvisited.size() != 0) {
 		num = unvisited.min()->data->val;
-		pqueue::Cell* cell = unvisited.getFirst(), * last_cell = unvisited.min();
+		pqueue::Cell* cell = unvisited.getFirst(), * last_cell = unvisited.min();		// Запись номера вершины из списка непосещенных вершин
 		while (cell != last_cell) {
 			cell->data->time -= last_cell->data->time;
-			if (last_cell->data->val == cell->data->val)
+			if (last_cell->data->val == cell->data->val)								// Прохождение по списку непомещенных вершин и изменение время сгорания спички(ребра)
 				cell->data->time /= 2;
 			cell = cell->next;
 		}

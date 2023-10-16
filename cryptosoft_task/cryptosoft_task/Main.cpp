@@ -17,40 +17,40 @@ int main() {
 
 	if (fcin.is_open()) {
 
-		// считал значения из файла в список
+		// Считывание значений из файла в список
 		mass = scanFile(fcin);
 
-		// получил список вершин
+		// Получение списка вершин
 		totalPoints(mass, points);
 
-		// сгенерировал взвешанный граф
+		// Генерация граф
 		G = generateGraph(points, mass);
 
-		// получил наименьшее время сгорания фигуры
+		// Получение наименьшего времени сгорания фигуры
 		sum = new double[points.size()] {};
 
 		for (int i = 0; i < points.size(); i++) {
-			sum[i] = BFC(G, unvisited, visited, points, i);
+			sum[i] = BFC(G, unvisited, visited, points, i);						// Опредиление времени сгорания фигуры из всех точек
 			visited.clear();
 		}
 
 		min_time = sum[0];
 
 		for (int i = 0; i < points.size(); i++) {
-			if (sum[i] < min_time && (int)points[i][0] % 2 == 0 &&
+			if (sum[i] < min_time && (int)points[i][0] % 2 == 0 &&				// Поиск наименьшего времени сгорания
 					(int)points[i][1] % 2 == 0) {
 				min_time = sum[i];
 				value = i;
 			}
 		}
 
-		// записал результат в файл
+		// Запись результата в файл
 		fout << points[value][0] / 2 << " " << points[value][1] / 2 << endl;
 		fout << fixed;
 		fout << setprecision(2);
 		fout << min_time << endl;
 
-		//очистил память
+		// Очистка памяти
 		delete[] sum;
 		clearMemory(G, points);
 	}
