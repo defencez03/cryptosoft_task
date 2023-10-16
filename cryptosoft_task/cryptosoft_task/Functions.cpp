@@ -67,7 +67,7 @@ double** generateGraph(const vector<vector<double>>& points, const vector<vector
 		G[i] = new double[p_size]{0};
 	}
 
-	// Çàïîëíåíèå ãðàôà ñìåæíîñòè 
+	// Заполнение графа смежности 
 	for (int i = 0; i < p_size; i++) {
 		for (int j = 0; j < m_size; j++) {
 			if (points[i][0] == mass[j][0] && points[i][1] == mass[j][1]) {
