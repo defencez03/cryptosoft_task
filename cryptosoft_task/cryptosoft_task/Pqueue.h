@@ -6,7 +6,7 @@ struct Node {
 	double time = 0;
 };
 
-// Приоритетная очередь 
+// РџСЂРёРѕСЂРёС‚РµС‚РЅР°СЏ РѕС‡РµСЂРµРґСЊ
 class pqueue {
 public:
 	struct Cell {
