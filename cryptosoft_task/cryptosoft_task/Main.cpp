@@ -30,7 +30,7 @@ int main() {
 		sum = new double[points.size()] {};
 
 		for (int i = 0; i < points.size(); i++) {
-			sum[i] = BFC(G, unvisited, visited, points, i);						// Опредиление времени сгорания фигуры из всех точек
+			sum[i] = BFC(G, unvisited, visited, points, i);					// Опредиление времени сгорания фигуры из всех точек
 			visited.clear();
 		}
 
