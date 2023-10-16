@@ -1,7 +1,7 @@
 #include "Resource.h"
 
 
-// Добавление элемента в очередь
+// Р”РѕР±Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РІ РѕС‡РµСЂРµРґСЊ
 void pqueue::push(double time, int val) {
 	Cell* ptr = new Cell;
 	ptr->data->time = time;
@@ -17,7 +17,7 @@ void pqueue::push(double time, int val) {
 			if (ptr->data->time < cell->data->time) {
 				ptr->prev = cell;
 				if (cell != last) {
-					ptr->next = cell->next;					// Сортировка элементов очереди по времени (элементы с наименьшим временем в конец очереди)
+					ptr->next = cell->next;					// РЎРѕСЂС‚РёСЂРѕРІРєР° СЌР»РµРјРµРЅС‚РѕРІ РѕС‡РµСЂРµРґРё РїРѕ РІСЂРµРјРµРЅРё (СЌР»РµРјРµРЅС‚С‹ СЃ РЅР°РёРјРµРЅСЊС€РёРј РІСЂРµРјРµРЅРµРј РІ РєРѕРЅРµС† РѕС‡РµСЂРµРґРё)
 					ptr->next->prev = ptr;
 				}
 				cell->next = ptr;
@@ -34,7 +34,7 @@ void pqueue::push(double time, int val) {
 	}
 }
 
-// Удаление последнего элемента из очереди
+// РЈРґР°Р»РµРЅРёРµ РїРѕСЃР»РµРґРЅРµРіРѕ СЌР»РµРјРµРЅС‚Р° РёР· РѕС‡РµСЂРµРґРё
 void pqueue::pop() {
 	Cell* sw;
 
@@ -54,10 +54,10 @@ pqueue::Cell* pqueue::getNext(Cell* cell) { return cell->next; }
 
 pqueue::Cell* pqueue::getFirst() { return this->first; }
 
-// Получение эелемента с наименьшим временем
+// РџРѕР»СѓС‡РµРЅРёРµ СЌРµР»РµРјРµРЅС‚Р° СЃ РЅР°РёРјРµРЅСЊС€РёРј РІСЂРµРјРµРЅРµРј
 pqueue::Cell* pqueue::min() { return this->last; }
 
-// Определение размера очереди
+// РћРїСЂРµРґРµР»РµРЅРёРµ СЂР°Р·РјРµСЂР° РѕС‡РµСЂРµРґРё
 int pqueue::size() {
 	Cell* cell = first;
 	int num = 0;
@@ -70,7 +70,7 @@ int pqueue::size() {
 	return num;
 }
 
-// Удаление ячейки 
+// РЈРґР°Р»РµРЅРёРµ СЏС‡РµР№РєРё
 void pqueue::delCell(Cell* search_cell) {
 	Cell* cell = first;
 	while (cell != NULL) {
@@ -79,9 +79,9 @@ void pqueue::delCell(Cell* search_cell) {
 				if (cell->prev != NULL) {
 					cell->prev->next = cell->next;			
 				}
-				else first = cell->next;					// Определение позиции ячейки
-															// Если ячейка является поледней, то указателю last = предыдущая ячейка
-				if (cell->next != NULL) {					// Если ячейка является первой, то указателю first = следующая ячейка
+				else first = cell->next;					// РћРїСЂРµРґРµР»РµРЅРёРµ РїРѕР·РёС†РёРё СЏС‡РµР№РєРё
+												// Р•СЃР»Рё СЏС‡РµР№РєР° СЏРІР»СЏРµС‚СЃСЏ РїРѕР»РµРґРЅРµР№, С‚Рѕ СѓРєР°Р·Р°С‚РµР»СЋ last = РїСЂРµРґС‹РґСѓС‰Р°СЏ СЏС‡РµР№РєР°
+				if (cell->next != NULL) {					// Р•СЃР»Рё СЏС‡РµР№РєР° СЏРІР»СЏРµС‚СЃСЏ РїРµСЂРІРѕР№, С‚Рѕ СѓРєР°Р·Р°С‚РµР»СЋ first = СЃР»РµРґСѓСЋС‰Р°СЏ СЏС‡РµР№РєР°
 					cell->next->prev = cell->prev;
 				}
 				else last = cell->prev;
@@ -89,7 +89,7 @@ void pqueue::delCell(Cell* search_cell) {
 				delete cell;
 			}
 			else {
-				delete cell;								// Если элемент один в очреди, то first И last обнуляются
+				delete cell;							// Р•СЃР»Рё СЌР»РµРјРµРЅС‚ РѕРґРёРЅ РІ РѕС‡СЂРµРґРё, С‚Рѕ first Р last РѕР±РЅСѓР»СЏСЋС‚СЃСЏ
 				first = last = NULL;
 			}
 			break;
@@ -104,7 +104,7 @@ pqueue::~pqueue() {
 
 pqueue::Cell::Cell() { data = new Node; }
 
-//Очитска очереди
+//РћС‡РёС‚СЃРєР° РѕС‡РµСЂРµРґРё
 void pqueue::clear() {
 	Cell* cell = first, * sw = NULL;
 
