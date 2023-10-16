@@ -1,6 +1,6 @@
 #include "Resource.h"
 
-// Считывание данных из файла
+// РЎС‡РёС‚С‹РІР°РЅРёРµ РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р°
 vector<vector<double>> scanFile(ifstream& fcin) {
 	int points;
 	vector<double> mas_buff;
@@ -16,9 +16,9 @@ vector<vector<double>> scanFile(ifstream& fcin) {
 		mass.push_back({ mas_buff[0] * 2, mas_buff[1] * 2,
 						 mas_buff[0] + mas_buff[2],
 						 mas_buff[1] + mas_buff[3],					
-						 mas_buff[4] / 2});												// Увеличение фигуры и запись промежуточных точек
-		mass.push_back({ mas_buff[0] + mas_buff[2],										// Уменьшение вренеи прохождения в 2 раза
-						 mas_buff[1] + mas_buff[3],										// Пример: до увеличения (11-22), после (22-33, 33-44)
+						 mas_buff[4] / 2});						// РЈРІРµР»РёС‡РµРЅРёРµ С„РёРіСѓСЂС‹ Рё Р·Р°РїРёСЃСЊ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹С… С‚РѕС‡РµРє
+		mass.push_back({ mas_buff[0] + mas_buff[2],							// РЈРјРµРЅСЊС€РµРЅРёРµ РІСЂРµРЅРµРё РїСЂРѕС…РѕР¶РґРµРЅРёСЏ РІ 2 СЂР°Р·Р°
+						 mas_buff[1] + mas_buff[3],					// РџСЂРёРјРµСЂ: РґРѕ СѓРІРµР»РёС‡РµРЅРёСЏ (11-22), РїРѕСЃР»Рµ (22-33, 33-44)
 						 mas_buff[2] * 2, mas_buff[3] * 2,
 						 mas_buff[4] / 2 });
 		mas_buff.clear();
@@ -26,7 +26,7 @@ vector<vector<double>> scanFile(ifstream& fcin) {
 	return mass;
 }
 
-// Запись точек в список вершин из списка связей между точками
+// Р—Р°РїРёСЃСЊ С‚РѕС‡РµРє РІ СЃРїРёСЃРѕРє РІРµСЂС€РёРЅ РёР· СЃРїРёСЃРєР° СЃРІСЏР·РµР№ РјРµР¶РґСѓ С‚РѕС‡РєР°РјРё
 void totalPoints(vector<vector<double>>& mass, vector<vector<double>>& points) {
 	bool p_start = 1, p_end = 1;
 
@@ -41,7 +41,7 @@ void totalPoints(vector<vector<double>>& mass, vector<vector<double>>& points) {
 			if (mass[i][0] == points[j][0] && mass[i][1] == points[j][1]) {			
 				p_start = 0;
 			}
-			if (mass[i][2] == points[j][0] && mass[i][3] == points[j][1]) {				// Проверка наличия точки в списке вершин
+			if (mass[i][2] == points[j][0] && mass[i][3] == points[j][1]) {				// РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ С‚РѕС‡РєРё РІ СЃРїРёСЃРєРµ РІРµСЂС€РёРЅ
 				p_end = 0;
 			}
 			if (p_start == 0 && p_end == 0) break;
@@ -55,7 +55,7 @@ void totalPoints(vector<vector<double>>& mass, vector<vector<double>>& points) {
 	}
 }
 
-// Создание графа(матрицы смежности)
+// РЎРѕР·РґР°РЅРёРµ РіСЂР°С„Р°(РјР°С‚СЂРёС†С‹ СЃРјРµР¶РЅРѕСЃС‚Рё)
 double** generateGraph(const vector<vector<double>>& points, const vector<vector<double>>& mass) {
 	
 	int p_size = points.size();
@@ -67,13 +67,13 @@ double** generateGraph(const vector<vector<double>>& points, const vector<vector
 		G[i] = new double[p_size]{0};
 	}
 
-	// Заполнение графа смежности 
+	// Г‡Г ГЇГ®Г«Г­ГҐГ­ГЁГҐ ГЈГ°Г ГґГ  Г±Г¬ГҐГ¦Г­Г®Г±ГІГЁ 
 	for (int i = 0; i < p_size; i++) {
 		for (int j = 0; j < m_size; j++) {
 			if (points[i][0] == mass[j][0] && points[i][1] == mass[j][1]) {
 				for (int k = 0; k < p_size; k++) {
-					if (points[k][0] == mass[j][2] && points[k][1] == mass[j][3]) {		// Сравнение точек из списка со связанными точками и списком точек
-						G[i][k] = mass[j][4];											// Добавление времени сгорания спички по индексам из списка точек(вес ребра)
+					if (points[k][0] == mass[j][2] && points[k][1] == mass[j][3]) {		// РЎСЂР°РІРЅРµРЅРёРµ С‚РѕС‡РµРє РёР· СЃРїРёСЃРєР° СЃРѕ СЃРІСЏР·Р°РЅРЅС‹РјРё С‚РѕС‡РєР°РјРё Рё СЃРїРёСЃРєРѕРј С‚РѕС‡РµРє
+						G[i][k] = mass[j][4];						// Р”РѕР±Р°РІР»РµРЅРёРµ РІСЂРµРјРµРЅРё СЃРіРѕСЂР°РЅРёСЏ СЃРїРёС‡РєРё РїРѕ РёРЅРґРµРєСЃР°Рј РёР· СЃРїРёСЃРєР° С‚РѕС‡РµРє(РІРµСЃ СЂРµР±СЂР°)
 						G[k][i] = mass[j][4];											
 					}
 				}
@@ -92,7 +92,7 @@ double** generateGraph(const vector<vector<double>>& points, const vector<vector
 	return G;
 }
 
-// Очитска выделенной памяти
+// РћС‡РёС‚СЃРєР° РІС‹РґРµР»РµРЅРЅРѕР№ РїР°РјСЏС‚Рё
 void clearMemory(double** G, const vector<vector<double>>& points) {
 	int p_size = points.size();
 
@@ -103,7 +103,7 @@ void clearMemory(double** G, const vector<vector<double>>& points) {
 	delete[] G;
 }
 
-// Функция обхода графа в ширину (алгоритм Дейкстры)
+// Р¤СѓРЅРєС†РёСЏ РѕР±С…РѕРґР° РіСЂР°С„Р° РІ С€РёСЂРёРЅСѓ (Р°Р»РіРѕСЂРёС‚Рј Р”РµР№РєСЃС‚СЂС‹)
 double BFC(double** G, pqueue& unvisited, vector<double> visited, const vector<vector<double>>& points, int num) {
 	bool ans = 0;
 	double sum = 0;
@@ -112,8 +112,8 @@ double BFC(double** G, pqueue& unvisited, vector<double> visited, const vector<v
 	for (int i = 0; i < points.size(); i++) {
 		ans = 0;
 		if (G[num][i] > 0) {
-			for (int j = 0; j < visited.size(); j++) {									// Добавление в список непосещенных точек 
-				if (i == visited[j]) ans = 1;											// Добавление структуры, содержащую номер вершины и время прохождения до нее
+			for (int j = 0; j < visited.size(); j++) {						// Р”РѕР±Р°РІР»РµРЅРёРµ РІ СЃРїРёСЃРѕРє РЅРµРїРѕСЃРµС‰РµРЅРЅС‹С… С‚РѕС‡РµРє  
+				if (i == visited[j]) ans = 1;							// Р”РѕР±Р°РІР»РµРЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹, СЃРѕРґРµСЂР¶Р°С‰СѓСЋ РЅРѕРјРµСЂ РІРµСЂС€РёРЅС‹ Рё РІСЂРµРјСЏ РїСЂРѕС…РѕР¶РґРµРЅРёСЏ РґРѕ РЅРµРµ
 			}
 			if (ans == 0) unvisited.push(G[num][i], i);
 		}
@@ -121,12 +121,12 @@ double BFC(double** G, pqueue& unvisited, vector<double> visited, const vector<v
 
 	if (unvisited.size() != 0) {
 		num = unvisited.min()->data->val;
-		pqueue::Cell* cell = unvisited.getFirst(), * last_cell = unvisited.min();		// Запись номера вершины из списка непосещенных вершин
+		pqueue::Cell* cell = unvisited.getFirst(), * last_cell = unvisited.min();			// Р—Р°РїРёСЃСЊ РЅРѕРјРµСЂР° РІРµСЂС€РёРЅС‹ РёР· СЃРїРёСЃРєР° РЅРµРїРѕСЃРµС‰РµРЅРЅС‹С… РІРµСЂС€РёРЅ
 		while (cell != last_cell) {
 			cell->data->time -= last_cell->data->time;
-			if (last_cell->data->val == cell->data->val)								// Прохождение по списку непомещенных вершин и изменение время сгорания спички(ребра)
-				cell->data->time /= 2;
-			cell = cell->next;
+			if (last_cell->data->val == cell->data->val)						// РџСЂРѕС…РѕР¶РґРµРЅРёРµ РїРѕ СЃРїРёСЃРєСѓ РЅРµРїРѕРјРµС‰РµРЅРЅС‹С… РІРµСЂС€РёРЅ Рё РёР·РјРµРЅРµРЅРёРµ РІСЂРµРјСЏ СЃРіРѕСЂР°РЅРёСЏ СЃРїРёС‡РєРё(СЂРµР±СЂР°)
+				cell->data->time /= 2;								// Р•СЃР»Рё РїРѕСЃРµС‰Р°РµРјР°СЏ С‚РѕС‡РєР° РµСЃС‚СЊ РІ СЃРїРёСЃРєРµ РЅРµРїРѕСЃРµС‰РµРЅРЅС‹С… С‚РѕС‡РµРє,
+			cell = cell->next;									// С‚Рѕ РІСЂРµРјСЏ СЃРѕРєСЂР°С‰Р°РµС‚СЃСЏ РІ 2 СЂР°Р·Р°
 		}
 		sum += last_cell->data->time;
 		unvisited.pop();
