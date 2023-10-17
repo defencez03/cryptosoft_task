@@ -17,7 +17,7 @@ vector<vector<double>> scanFile(ifstream& fcin) {
 						 mas_buff[0] + mas_buff[2],
 						 mas_buff[1] + mas_buff[3],					
 						 mas_buff[4] / 2});						// Увеличение фигуры и запись промежуточных точек
-		mass.push_back({ mas_buff[0] + mas_buff[2],							// Уменьшение вренеи прохождения в 2 раза
+		mass.push_back({ mas_buff[0] + mas_buff[2],							// Уменьшение времени прохождения в 2 раза
 						 mas_buff[1] + mas_buff[3],					// Пример: до увеличения (11-22), после (22-33, 33-44)
 						 mas_buff[2] * 2, mas_buff[3] * 2,
 						 mas_buff[4] / 2 });
@@ -124,7 +124,7 @@ double BFC(double** G, pqueue& unvisited, vector<double> visited, const vector<v
 		pqueue::Cell* cell = unvisited.getFirst(), * last_cell = unvisited.min();			// Запись номера вершины из списка непосещенных вершин
 		while (cell != last_cell) {
 			cell->data->time -= last_cell->data->time;
-			if (last_cell->data->val == cell->data->val)						// Прохождение по списку непомещенных вершин и изменение время сгорания спички(ребра)
+			if (last_cell->data->val == cell->data->val)						// Прохождение по списку непомесенных вершин и изменение времени сгорания спички(ребра)
 				cell->data->time /= 2;								// Если посещаемая точка есть в списке непосещенных точек,
 			cell = cell->next;									// то время сокращается в 2 раза
 		}
